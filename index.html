@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Core — Contraste | WCAG, APCA et échelles de couleur accessibles</title>
+<meta name="description" content="Vérifier le contraste de deux couleurs selon WCAG 2.2 et APCA, réparer un duo qui échoue sans perdre la teinte, et bâtir une échelle tonale en OKLCH. Dans le navigateur, sans dépendance.">
+<meta name="theme-color" content="#F1EFFD">
+<link rel="stylesheet" href="css/contraste.css">
+<link rel="icon" href="img/core-mark-32.png" sizes="32x32">
+<link rel="icon" href="img/core-mark-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="img/core-mark-512.png">
+</head>
+<body>
+
+<header class="entete">
+  <div class="entete__marque">
+    <img class="signe" src="img/core-mark-192.png" width="30" height="30" alt="" aria-hidden="true">
+    <div>
+      <h1>Core <span class="entete__tiret">—</span> Contraste</h1>
+      <p>
+        <a class="entete__lien" href="https://core-agency.be" target="_blank" rel="noopener">core-agency.be</a>
+        — savoir si ça se lit, et quoi changer sinon.
+      </p>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- ============================================== LE DUO -->
+  <section class="outil">
+    <h2 class="outil__titre">Le duo</h2>
+    <p class="outil__intro">
+      Deux couleurs, deux mesures. Le rapport WCAG est celui qu'exigent les
+      textes réglementaires ; le Lc d'APCA colle de plus près à ce qu'un œil
+      perçoit réellement. Les deux sont donnés, parce qu'ils ne disent pas
+      tout à fait la même chose.
+    </p>
+
+    <div class="rangee">
+      <div class="champ">
+        <span class="champ__nom">Texte</span>
+        <div class="couleur">
+          <input id="pipetteTexte" type="color" value="#6355E0" aria-label="Couleur du texte">
+          <input id="hexTexte" class="saisie" type="text" value="#6355E0" aria-label="Couleur du texte en hexadécimal">
+        </div>
+      </div>
+      <div class="champ">
+        <span class="champ__nom">Fond</span>
+        <div class="couleur">
+          <input id="pipetteFond" type="color" value="#FFFFFF" aria-label="Couleur du fond">
+          <input id="hexFond" class="saisie" type="text" value="#FFFFFF" aria-label="Couleur du fond en hexadécimal">
+        </div>
+      </div>
+      <div class="champ">
+        <span class="champ__nom">&nbsp;</span>
+        <button class="bouton bouton--discret" id="permuter" type="button">Permuter les deux</button>
+      </div>
+    </div>
+
+    <div class="echantillon" id="echantillon">
+      <p class="echantillon__grand">Composez votre gaufre croustillante</p>
+      <p class="echantillon__courant">
+        Le texte courant d'une page se lit à seize pixels. C'est à cette
+        taille que le contraste se juge, pas sur un grand titre.
+      </p>
+      <p class="echantillon__petit">
+        Les mentions légales, les notes de bas de page et les libellés de
+        formulaire descendent souvent à treize pixels.
+      </p>
+      <p><span class="echantillon__ui">Bouton d'interface</span></p>
+    </div>
+
+    <div class="verdicts">
+      <div class="mesure">
+        <div class="mesure__nom">WCAG 2.2</div>
+        <p class="mesure__valeur" id="valeurWcag">—</p>
+        <div class="mesure__quoi">Rapport de luminance, de 1 à 21</div>
+        <div class="notes" id="notesWcag"></div>
+      </div>
+      <div class="mesure">
+        <div class="mesure__nom">APCA <span style="text-transform:none">(indicatif)</span></div>
+        <p class="mesure__valeur" id="valeurApca">—</p>
+        <div class="mesure__quoi" id="quoiApca">—</div>
+        <div class="notes">
+          <div class="note-ligne" style="background:var(--carte);color:var(--douce)">
+            <span id="polarite">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reparation" id="reparation" hidden>
+      <span class="reparation__pastille" id="reparationPastille"></span>
+      <div class="reparation__texte" id="reparationTexte">
+        <div>
+          Le duo échoue. La couleur la plus proche qui passe est
+          <span class="reparation__hex" id="reparationHex">—</span>.
+        </div>
+        <button class="bouton bouton--discret reparation__bouton" id="reparationAppliquer" type="button">
+          Appliquer cette couleur
+        </button>
+      </div>
+    </div>
+
+    <p class="note">
+      La réparation ne touche qu'à la <strong>clarté</strong> : la teinte et
+      la saturation restent celles de la marque. C'est la clarté qui porte le
+      contraste ; déplacer la teinte donnerait une couleur conforme mais
+      étrangère à l'identité.
+    </p>
+  </section>
+
+  <!-- ============================================== L'ÉCHELLE -->
+  <section class="outil">
+    <h2 class="outil__titre">L'échelle</h2>
+    <p class="outil__intro">
+      Une couleur de marque ne suffit pas à faire une interface : il faut ses
+      tons clairs pour les fonds, ses tons sombres pour les textes. Onze crans
+      répartis en clarté OKLCH, teinte conservée, chacun annonçant le texte
+      qui se lit dessus.
+    </p>
+
+    <div class="rangee">
+      <div class="champ">
+        <span class="champ__nom">Couleur de marque</span>
+        <div class="couleur">
+          <input id="pipetteBase" type="color" value="#6355E0" aria-label="Couleur de marque">
+          <input id="hexBase" class="saisie" type="text" value="#6355E0" aria-label="Couleur de marque en hexadécimal">
+        </div>
+      </div>
+    </div>
+
+    <div class="echelle" id="echelle"></div>
+
+    <p class="note">
+      Cliquez un ton pour le charger dans le duo ci-dessus. Le cran cerclé est
+      celui qui porte votre couleur exacte — les autres en dérivent.
+    </p>
+
+    <div class="sortie__barre">
+      <button class="bouton bouton--plein" id="copierCss" type="button">Copier les variables CSS</button>
+      <span class="sortie__etat" id="etatCopie" hidden>Copié.</span>
+    </div>
+    <pre class="code" id="sortieCss">—</pre>
+  </section>
+
+</main>
+
+<footer class="pied">
+  <p>
+    Tout est calculé dans votre navigateur. Aucune couleur, aucune palette
+    n'est envoyée nulle part — ouvrez l'onglet « Réseau » de vos outils de
+    développement, il restera vide.
+  </p>
+  <p class="pied__avertissement">
+    Un contraste conforme ne rend pas une interface lisible à lui seul.
+    L'épaisseur du trait d'une police, l'espacement des lignes, la taille
+    réelle sur un écran de téléphone en plein soleil comptent autant. Ces
+    mesures écartent ce qui est illisible ; elles ne garantissent pas ce qui
+    est confortable.
+  </p>
+  <p class="pied__signature">
+    <a href="https://github.com/Core-Agency/core-contraste">Code source</a> ·
+    construit par <a href="https://core-agency.be">Core</a>
+  </p>
+</footer>
+
+<script src="js/couleur.js"></script>
+<script src="js/atelier.js"></script>
+</body>
+</html>
