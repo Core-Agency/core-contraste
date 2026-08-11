@@ -1,0 +1,41 @@
+# Le harnais de vérification tourne à chaque poussée et sur chaque
+# demande de tirage. Le badge du README lit le résultat de ce travail :
+# il dit donc quelque chose de vrai, et non une décoration.
+name: Vérification
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # Une fois par semaine : le code ne bouge pas, mais Node avance, et une
+  # régression du moteur JavaScript doit se voir avant un client.
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["20", "22", "24"]
+    name: Node ${{ matrix.node }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      # Aucune dépendance à installer : c'est le propos de ces outils.
+      - name: Vérifier qu'aucune dépendance ne s'est glissée
+        run: |
+          if [ -f package.json ] || [ -d node_modules ]; then
+            echo "Une dépendance est apparue. Ces outils n'en prennent pas."
+            exit 1
+          fi
+
+      - name: Harnais
+        run: node tests/verifier.js
