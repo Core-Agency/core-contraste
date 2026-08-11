@@ -207,3 +207,26 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* ------------------------------------------------------------ FAMILLE
+   Les sept outils de Core ne se connaissaient pas entre eux. Quelqu'un
+   qui arrive ici par une recherche n'avait aucun moyen d'apprendre que
+   les six autres existent — c'est le seul lien qui manquait. */
+.famille {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .3rem .75rem;
+  margin: 0 0 .7rem;
+  padding-top: .8rem;
+  border-top: 1px solid var(--filet);
+  font-size: .78rem;
+}
+.famille__titre { font-weight: 600; color: var(--encre); }
+.famille a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.famille a:hover { border-bottom-color: currentColor; }
+.famille a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
