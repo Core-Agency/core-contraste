@@ -15,6 +15,8 @@
 ![Hors ligne](https://img.shields.io/badge/fonctionne%20hors%20ligne-oui-1A1A1A?style=for-the-badge&labelColor=1A1A1A)
 ![Contrôles](https://img.shields.io/badge/contrôles%20automatisés-62-1A1A1A?style=for-the-badge&labelColor=1A1A1A)
 
+[![Vérification](https://github.com/Core-Agency/core-contraste/actions/workflows/verifier.yml/badge.svg)](https://github.com/Core-Agency/core-contraste/actions/workflows/verifier.yml)
+
 **[core-agency.github.io/core-contraste](https://core-agency.github.io/core-contraste/)**
 
 </div>
